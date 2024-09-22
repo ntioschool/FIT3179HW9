@@ -1,12 +1,50 @@
 {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "title": { "text": "FARFT" },
-    "data": {
-    "url": "https://raw.githubusercontent.com/FIT3179/Datasets/main/city_daily_cost.csv"
-    },
-    "mark": "bar",
-    "encoding": {
-    "x": { "field": "daily_cost", "type": "quantitative" },
-    "y": { "field": "city", "type": "nominal" }
-    }
-}
+    "width": 800,
+    "height": 800,
+    "layer": [
+      {
+        
+        "data": {
+          "url": "output.json",
+          "format": {
+            "type": "topojson",
+            "feature": "suburb-2-vic"  
+          }
+        },
+        "mark": {
+          "type": "geoshape",
+          "fill": "#dddddd",  
+          "stroke": "black"
+        },
+        "projection": {
+          "type": "mercator"  
+        }
+      },
+      {
+
+        "data": {
+          "url": "output.json",
+          "format": {
+            "type": "topojson",
+            "feature": "PTV_METRO_TRAIN_STATION"  
+          }
+        },
+        "mark": {
+          "type": "geoshape",
+          "color": "red",
+          "size": 100  
+        },
+        "projection": {
+          "type": "mercator"
+        },
+        "encoding": {
+          "tooltip": {
+            "field": "properties.STOP_NAME",  
+            "type": "nominal"
+          }
+        }
+      }
+    ]
+  }
+  
