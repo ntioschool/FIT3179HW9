@@ -1,0 +1,91 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 800,
+    "height": 800,
+    "layer": [
+      {
+        
+        "data": {
+          "url": "suburb-2-vic.json",
+          "format": {
+            "type": "topojson",
+            "feature": "suburb-2-vic"
+          }
+        },
+        "mark": {
+          "type": "geoshape",
+          "fill": "#dddddd",
+          "stroke": "black"
+        },
+        "projection": {
+          "type": "mercator",
+          "scale": 40000,  
+          "center": [144.9631, -37.8136], 
+          "translate": [400, 300]
+        }
+      },
+      {
+        
+        "data": {
+          "url": "train_service_passenger_counts_sampled.csv",  
+          "format": {
+            "type": "csv"
+          }
+        },
+        "transform": [
+          {
+            "aggregate": [
+              {
+                "op": "sum",
+                "field": "Passenger_Boardings",
+                "as": "Total_Boardings"
+              }
+            ],
+            "groupby": ["Station_Name", "Station_Latitude", "Station_Longitude"]
+          }
+        ],
+        "mark": {
+          "type": "point",
+          "color": "red",
+          "filled": true,
+          "opacity": 1,
+          "size": 150
+        },
+        "projection": {
+          "type": "mercator",
+          "scale":40000,  
+          "center": [144.9631, -37.8136], 
+          "translate": [400, 300]
+        },
+        "encoding": {
+          "longitude": {
+            "field": "Station_Longitude",
+            "type": "quantitative"
+          },
+          "latitude": {
+            "field": "Station_Latitude",
+            "type": "quantitative"
+          },
+          "color": {
+            "field": "Total_Boardings",
+            "type": "quantitative",
+            "scale": {"scheme": "reds","domainMin": 100, "domainMax": 50000}, 
+            "title": "Passenger Boardings"
+          },
+          "tooltip": [
+            {
+              "field": "Station_Name",
+              "type": "nominal",
+              "title": "Station Name"
+            },
+            {
+              "field": "Total_Boardings",
+              "type": "quantitative",
+              "title": "Total Boardings"
+            }
+          ]
+        }
+      }
+    ]
+  }
+  
